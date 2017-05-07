@@ -1,3 +1,5 @@
+package BD;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
@@ -25,13 +27,14 @@ public class MongoDBController {
 	}
 
 
-
+/*
 	public void saveTweet(Status status){
+
 		Gson gson = new Gson();
 		String json = gson.toJson(obj);
 
 		BasicDBObject doc = (BasicDBObject) JSON.parse(json);
-		doc.append("")
+
 
 	}
 
@@ -49,8 +52,6 @@ public class MongoDBController {
 
 	public static Object docToDoc(DBObject doc, Object objClass){
 
-		Object obj =
-
-		return obj;
 	}
+*/
 }
