@@ -1,12 +1,14 @@
 package Model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.mongodb.BasicDBObject;
+import com.mongodb.util.JSON;
 import twitter4j.HashtagEntity;
 import twitter4j.Status;
 import twitter4j.UserMentionEntity;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class Tweet{
     // Twitter Status
@@ -19,7 +21,8 @@ public class Tweet{
     private Tweet quotedStatus;
     private User[] userMentions;
     private String[] hashtags;
-    private  User user;
+    private User user;
+    private GeoLocation geoLocation;
 
     // Politweets
     private String sentimiento = null;
@@ -36,6 +39,7 @@ public class Tweet{
         retweetedStatus = new Tweet(s.getRetweetedStatus());
         quotedStatus = new Tweet(s.getQuotedStatus());
         user = new User(s.getUser());
+        geoLocation = new GeoLocation(s.getGeoLocation(),user.getLocation());
 
         UserMentionEntity[] menciones = s.getUserMentionEntities();
         userMentions = new User[menciones.length];
@@ -48,6 +52,21 @@ public class Tweet{
         for (int i=0;i<statusHashtags.length;i++) {
             hashtags[i] = statusHashtags[i].getText();
         }
+
+     }
+
+    public String toJSON(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+
+    public String toPrettyJSON(){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
+    }
+
+    public BasicDBObject toBDObject(){
+        return (BasicDBObject) JSON.parse(this.toJSON());
     }
 
     // GETTERS
@@ -60,6 +79,7 @@ public class Tweet{
     public long getInReplyToStatusId() { return inReplyToStatusId;}
     public long getInReplyToUserId() {return inReplyToUserId;}
     public Tweet getQuotedStatus() {return quotedStatus;}
+    public GeoLocation getGeoLocation() {return geoLocation;}
     public Tweet getRetweetedStatus() {return retweetedStatus;}
     public String getSentimiento() {return sentimiento;}
     public boolean isGeoIndexed() {return geoIndexed;}

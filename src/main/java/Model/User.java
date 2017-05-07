@@ -1,5 +1,9 @@
 package Model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.mongodb.BasicDBObject;
+import com.mongodb.util.JSON;
 import twitter4j.UserMentionEntity;
 
 public class User {
@@ -24,6 +28,20 @@ public class User {
         _id = m.getId();
         name = m.getName();
         screenName = m.getScreenName();
+    }
+
+    public String toJSON(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+
+    public String toPrettyJSON(){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
+    }
+
+    public BasicDBObject toBDObject(){
+        return (BasicDBObject) JSON.parse(this.toJSON());
     }
 
     // GETTERS

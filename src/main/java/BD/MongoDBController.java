@@ -1,5 +1,6 @@
 package BD;
 
+import Model.Tweet;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
@@ -28,13 +29,7 @@ public class MongoDBController {
 
 
 /*
-	public void saveTweet(Status status){
-
-		Gson gson = new Gson();
-		String json = gson.toJson(obj);
-
-		BasicDBObject doc = (BasicDBObject) JSON.parse(json);
-
+	public void saveTweet(Tweet tweet){
 
 	}
 
