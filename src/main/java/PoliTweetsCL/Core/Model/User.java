@@ -1,4 +1,4 @@
-package Model;
+package PoliTweetsCL.Core.Model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,7 +15,7 @@ public class User {
     private int friendsCount;
     private String location;
 
-    User(twitter4j.User u){
+    public User(twitter4j.User u){
         _id = u.getId();
         name = u.getName();
         screenName = u.getScreenName();
@@ -24,7 +24,7 @@ public class User {
         location = u.getLocation();
     }
 
-    User(UserMentionEntity m){
+    public User(UserMentionEntity m){
         _id = m.getId();
         name = m.getName();
         screenName = m.getScreenName();

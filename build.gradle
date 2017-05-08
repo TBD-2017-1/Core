@@ -1,8 +1,18 @@
 apply plugin: 'java'
+apply plugin: 'maven'
 
 version '1.0'
 
 sourceCompatibility = 1.8
+
+libsDirName = '../lib'
+
+jar{
+    manifest{
+        attributes  'Implementation-Title': 'CoreLib',
+                    'Implementation-Version': version
+    }
+}
 
 repositories {
     mavenCentral()

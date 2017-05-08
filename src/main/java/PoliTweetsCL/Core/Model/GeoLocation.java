@@ -1,4 +1,4 @@
-package Model;
+package PoliTweetsCL.Core.Model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,20 +10,22 @@ public class GeoLocation {
     private double latitude;
     private double longitude;
 
-    GeoLocation(){
+    public GeoLocation(){
         location = null;
         latitude = -1;
         longitude = -1;
     }
 
-    GeoLocation(twitter4j.GeoLocation geo){
+    public GeoLocation(twitter4j.GeoLocation geo){
         latitude = geo.getLatitude();
         longitude = geo.getLongitude();
     }
 
-    GeoLocation(twitter4j.GeoLocation geo, String userLocation){
-        latitude = geo.getLatitude();
-        longitude = geo.getLongitude();
+    public GeoLocation(twitter4j.GeoLocation geo, String userLocation){
+        if(geo != null){
+            latitude = geo.getLatitude();
+            longitude = geo.getLongitude();
+        }
         location = userLocation;
     }
 

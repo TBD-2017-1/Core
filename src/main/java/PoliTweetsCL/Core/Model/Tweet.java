@@ -1,4 +1,4 @@
-package Model;
+package PoliTweetsCL.Core.Model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,27 +30,33 @@ public class Tweet{
     private boolean userIndexed = false;
     private boolean geoIndexed = false;
 
-     Tweet(Status s){
+    public Tweet(Status s){
         _id = s.getId();
         createdAt = s.getCreatedAt();
         text = s.getText();
         inReplyToStatusId = s.getInReplyToStatusId();
         inReplyToUserId = s.getInReplyToUserId();
-        retweetedStatus = new Tweet(s.getRetweetedStatus());
-        quotedStatus = new Tweet(s.getQuotedStatus());
+        retweetedStatus = (s.getRetweetedStatus()!=null)?new Tweet(s.getRetweetedStatus()):null;
+        quotedStatus = (s.getQuotedStatus()!=null)?new Tweet(s.getQuotedStatus()):null;
         user = new User(s.getUser());
         geoLocation = new GeoLocation(s.getGeoLocation(),user.getLocation());
 
         UserMentionEntity[] menciones = s.getUserMentionEntities();
-        userMentions = new User[menciones.length];
-        for (int i=0;i<menciones.length;i++) {
-            userMentions[i] = new User(menciones[i]);
+        userMentions = null;
+        if(menciones.length>0){
+            userMentions = new User[menciones.length];
+            for (int i=0;i<menciones.length;i++) {
+                userMentions[i] = new User(menciones[i]);
+            }
         }
 
         HashtagEntity[] statusHashtags = s.getHashtagEntities();
-        hashtags = new String[statusHashtags.length];
-        for (int i=0;i<statusHashtags.length;i++) {
-            hashtags[i] = statusHashtags[i].getText();
+        hashtags = null;
+        if(statusHashtags.length>0){
+            hashtags = new String[statusHashtags.length];
+            for (int i=0;i<statusHashtags.length;i++) {
+                hashtags[i] = statusHashtags[i].getText();
+            }
         }
 
      }
