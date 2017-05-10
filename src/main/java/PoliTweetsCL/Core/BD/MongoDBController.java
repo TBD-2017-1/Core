@@ -3,6 +3,8 @@ package PoliTweetsCL.Core.BD;
 import com.mongodb.*;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Filters.*;
 import PoliTweetsCL.Core.Model.*;
 import org.bson.Document;
 
@@ -53,6 +55,12 @@ public class MongoDBController {
 
 		// Insert
 		tweetsCollection.insertOne(doc);
+	}
+
+	public Tweet getTweetById(long id){
+		Document doc = tweetsCollection.find(Filters.eq("_id",id)).first();
+
+		return Tweet.fromDocument(doc);
 	}
 
 

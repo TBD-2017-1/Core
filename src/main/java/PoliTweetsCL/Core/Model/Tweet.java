@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
+import org.bson.Document;
 import twitter4j.HashtagEntity;
 import twitter4j.Status;
 import twitter4j.UserMentionEntity;
@@ -59,7 +60,13 @@ public class Tweet{
             }
         }
 
-     }
+    }
+
+    public static Tweet fromDocument(Document doc){
+        Gson gson = new Gson();
+        return gson.fromJson(doc.toJson(), Tweet.class);
+    }
+
 
     public String toJSON(){
         Gson gson = new Gson();
