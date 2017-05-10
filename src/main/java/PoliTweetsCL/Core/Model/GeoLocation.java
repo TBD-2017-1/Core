@@ -43,6 +43,11 @@ public class GeoLocation {
         return (BasicDBObject) JSON.parse(this.toJSON());
     }
 
+    public static GeoLocation fromJSON(String json){
+        Gson gson = new Gson();
+        return gson.fromJson(json, GeoLocation.class);
+    }
+
     // GETTER
     public String getLocation() {return location;}
     public double getLatitude() {return latitude;}

@@ -44,6 +44,11 @@ public class User {
         return (BasicDBObject) JSON.parse(this.toJSON());
     }
 
+    public static User fromJSON(String json){
+        Gson gson = new Gson();
+        return gson.fromJson(json, User.class);
+    }
+
     // GETTERS
     public long get_id() {return _id;}
     public String getName() {return name;}
