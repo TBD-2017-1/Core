@@ -16,7 +16,7 @@ public class MySQLController {
     public MySQLController() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/PoliTweets?user=admin&password=x");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/PoliTweets?user=root&password=x");
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -27,7 +27,7 @@ public class MySQLController {
             if (remote){
                 conn = DriverManager.getConnection("jdbc:mysql://107.170.99.162/PoliTweets?user=root&password=DigitalOceanServer");
             }else{
-                conn = DriverManager.getConnection("jdbc:mysql://localhost/PoliTweets?user=admin&password=x");
+                conn = DriverManager.getConnection("jdbc:mysql://localhost/PoliTweets?user=root&password=x");
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -41,7 +41,7 @@ public class MySQLController {
             Statement st = conn.createStatement();
 
             // execute the query, and get a java resultset
-            ResultSet rs = st.executeQuery("SELECT * FROM keywords");
+            ResultSet rs = st.executeQuery("SELECT * FROM keyword");
 
             Set<String> keywords = new HashSet<>();
 

@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'maven'
 
-version '1.0.3'
+version '1.2'
 
 sourceCompatibility = 1.8
 
