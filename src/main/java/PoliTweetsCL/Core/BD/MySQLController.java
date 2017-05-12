@@ -34,6 +34,16 @@ public class MySQLController {
         }
     }
 
+    public MySQLController(String user,String pass) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/PoliTweets?user="+user+"&password="+pass);
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
     public Set<String> getKeywords(){
         try {
 
