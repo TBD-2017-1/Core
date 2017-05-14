@@ -41,7 +41,7 @@ public class MongoDBController {
 	// Para conectar con el servidor local con credenciales
 	public MongoDBController(String username, String pass){
 		// credencial
-		MongoCredential mongoCredential = MongoCredential.createScramSha1Credential(username, "admin",pass.toCharArray());
+		MongoCredential mongoCredential = MongoCredential.createScramSha1Credential(username, "admin", pass.toCharArray());
 		// cliente
 		mongoClient = new MongoClient(new ServerAddress("localhost", 27017), Arrays.asList(mongoCredential));
 		db = mongoClient.getDatabase("politweets");

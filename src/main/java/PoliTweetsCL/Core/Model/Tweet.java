@@ -64,7 +64,7 @@ public class Tweet{
 
     public static Tweet fromDocument(Document doc){
         Gson gson = new Gson();
-        return gson.fromJson(doc.toJson(), Tweet.class);
+        return gson.fromJson(gson.toJson(doc), Tweet.class);
     }
 
     public static Tweet fromJSON(String json){
