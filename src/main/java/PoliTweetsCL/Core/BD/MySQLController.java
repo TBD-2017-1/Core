@@ -46,7 +46,7 @@ public class MySQLController {
 
     public Set<String> getKeywords(){
         try {
-
+            /* Keywords */
             // create the java statement
             Statement st = conn.createStatement();
 
@@ -56,11 +56,39 @@ public class MySQLController {
             Set<String> keywords = new HashSet<>();
 
             // get keyword value
-            while (rs.next())
-            {
+            while (rs.next()){
                 keywords.add(rs.getString("value"));
             }
             st.close();
+
+            /* Add Twitter username for mentions */
+            st = conn.createStatement();
+            rs = st.executeQuery("SELECT * FROM conglomerado");
+            while (rs.next()){
+                String username = rs.getString("cuentaTwitter");
+                if(!rs.wasNull())
+                    keywords.add("@"+username);
+            }
+            st.close();
+
+            st = conn.createStatement();
+            rs = st.executeQuery("SELECT * FROM partido");
+            while (rs.next()){
+                String username = rs.getString("cuentaTwitter");
+                if(!rs.wasNull())
+                    keywords.add("@"+username);
+            }
+            st.close();
+
+            st = conn.createStatement();
+            rs = st.executeQuery("SELECT * FROM politico");
+            while (rs.next()){
+                String username = rs.getString("cuentaTwitter");
+                if(!rs.wasNull())
+                    keywords.add("@"+username);
+            }
+            st.close();
+
 
             return keywords;
 

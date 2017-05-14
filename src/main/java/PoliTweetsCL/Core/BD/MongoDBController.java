@@ -1,14 +1,16 @@
 package PoliTweetsCL.Core.BD;
 
 import com.mongodb.*;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Filters.*;
 import PoliTweetsCL.Core.Model.*;
 import org.bson.Document;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MongoDBController {
 	private MongoClient mongoClient;
@@ -59,8 +61,82 @@ public class MongoDBController {
 
 	public Tweet getTweetById(long id){
 		Document doc = tweetsCollection.find(Filters.eq("_id",id)).first();
-
 		return Tweet.fromDocument(doc);
+	}
+
+	public Tweet[] getTextUnindexedTweets(boolean setAsIndexed){
+		// obtener tweets
+		MongoCursor<Document> cursor = tweetsCollection.find(Filters.eq("textIndexed",false)).iterator();
+		List<Tweet> tweets = new ArrayList<>();
+
+		// si esta activa la opcion de actualizar la flag
+		if (setAsIndexed){
+			tweetsCollection.updateMany(
+					Filters.eq("textIndexed",false),
+					new Document("$set", new Document("textIndexed",true))
+					);
+		}
+
+		// Guardar como arreglo de tweets
+		try {
+			while (cursor.hasNext()) {
+				tweets.add(Tweet.fromDocument(cursor.next()));
+			}
+		} finally {
+			cursor.close();
+		}
+
+		return tweets.toArray(new Tweet[0]);
+	}
+
+	public Tweet[] getGraphUnindexedTweets(boolean setAsIndexed){
+		// obtener tweets
+		MongoCursor<Document> cursor = tweetsCollection.find(Filters.eq("userIndexed",false)).iterator();
+		List<Tweet> tweets = new ArrayList<>();
+
+		// si esta activa la opcion de actualizar la flag
+		if (setAsIndexed){
+			tweetsCollection.updateMany(
+					Filters.eq("userIndexed",false),
+					new Document("$set", new Document("userIndexed",true))
+			);
+		}
+
+		// Guardar como arreglo de tweets
+		try {
+			while (cursor.hasNext()) {
+				tweets.add(Tweet.fromDocument(cursor.next()));
+			}
+		} finally {
+			cursor.close();
+		}
+
+		return tweets.toArray(new Tweet[0]);
+	}
+
+	public Tweet[] getGeoUnindexedTweets(boolean setAsIndexed){
+		// obtener tweets
+		MongoCursor<Document> cursor = tweetsCollection.find(Filters.eq("geoIndexed",false)).iterator();
+		List<Tweet> tweets = new ArrayList<>();
+
+		// si esta activa la opcion de actualizar la flag
+		if (setAsIndexed){
+			tweetsCollection.updateMany(
+					Filters.eq("geoIndexed",false),
+					new Document("$set", new Document("geoIndexed",true))
+			);
+		}
+
+		// Guardar como arreglo de tweets
+		try {
+			while (cursor.hasNext()) {
+				tweets.add(Tweet.fromDocument(cursor.next()));
+			}
+		} finally {
+			cursor.close();
+		}
+
+		return tweets.toArray(new Tweet[0]);
 	}
 
 
