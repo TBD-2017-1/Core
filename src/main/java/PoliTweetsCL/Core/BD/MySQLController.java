@@ -1,11 +1,14 @@
 package PoliTweetsCL.Core.BD;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 
@@ -14,31 +17,34 @@ public class MySQLController {
     private Connection conn = null;
 
     public MySQLController() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/PoliTweets?user=root&password=x");
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-    public MySQLController(boolean remote) {
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            if (remote){
-                conn = DriverManager.getConnection("jdbc:mysql://107.170.99.162/PoliTweets?user=root&password=DigitalOceanServer");
-            }else{
-                conn = DriverManager.getConnection("jdbc:mysql://localhost/PoliTweets?user=root&password=x");
+        Properties prop = null;
+        String host;
+        String user;
+        String pass;
+        try{
+            prop = new Properties();
+            FileInputStream file;
+            File jarPath=new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+            String propertiesPath=jarPath.getParent();
+            prop.load(new FileInputStream(propertiesPath+"/core.properties"));
+        }catch (Exception e){
+            prop = null;
+        }finally {
+            if(prop == null){
+                host = "localhost";
+                user = "root";
+                pass = "DigitalOceanServer";
+            }else {
+                host = prop.getProperty("mysql.host");
+                user = prop.getProperty("mysql.user");
+                pass = prop.getProperty("mysql.pass");
             }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
         }
-    }
 
-    public MySQLController(String user,String pass) {
+
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/PoliTweets?user="+user+"&password="+pass);
-
+            conn = DriverManager.getConnection("jdbc:mysql://"+host+"/PoliTweets?user="+user+"&password="+pass);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

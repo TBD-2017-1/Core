@@ -21,3 +21,5 @@ Para utilizar esta libreria se debe definir como dependencia, la forma mas facil
  - Copiar la libreria que generada en el proceso de compilacion, ubicada en la carpeta `lib/`
  - Pegar en la carpeta `lib/` del proyecto dependiente
  - Verificar que Gradle señala a la version correcta de la libreria como dependencia
+ - En caso de utilizar esta libreria en un entorno local, los datos de conexion a mongodb y mysql deben estar en un archivo
+ de propiedades, como el que se encuentra en recursos o `lib/`

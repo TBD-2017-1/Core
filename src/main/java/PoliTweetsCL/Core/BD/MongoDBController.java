@@ -8,9 +8,12 @@ import com.mongodb.client.model.Filters;
 import PoliTweetsCL.Core.Model.*;
 import org.bson.Document;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 public class MongoDBController {
 	private MongoClient mongoClient;
@@ -18,36 +21,42 @@ public class MongoDBController {
 	private MongoCollection<Document> tweetsCollection;
 
 	/* CONSTRUCTORES */
-
-	// Para conectar con el servidor remoto
-	public MongoDBController(boolean remoto) {
-		// credencial
-		MongoCredential mongoCredential = MongoCredential.createScramSha1Credential("admin", "admin","DigitalOceanServer".toCharArray());
-		// cliente
-		mongoClient = new MongoClient(new ServerAddress("107.170.99.162", 27017), Arrays.asList(mongoCredential));
-
-		// conectar a bd
-		db = mongoClient.getDatabase("politweets");
-		tweetsCollection = db.getCollection("tweets");
-	}
-
-	// Para conectar al servidor local
 	public MongoDBController(){
-		mongoClient = new MongoClient("localhost", 27017);
-		db = mongoClient.getDatabase("politweets");
-		tweetsCollection = db.getCollection("tweets");
-	}
+		Properties prop = null;
+		String host;
+		String user;
+		String pass;
+		try{
+			prop = new Properties();
+			FileInputStream file;
+			File jarPath=new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+			String propertiesPath=jarPath.getParent();
+			prop.load(new FileInputStream(propertiesPath+"/core.properties"));
+		}catch (Exception e){
+			prop = null;
+			e.printStackTrace();
+		}finally {
+			if(prop == null){
+				host = "localhost";
+				user = "admin";
+				pass = "DigitalOceanServer";
+			}else {
+				host = prop.getProperty("mongo.host");
+				user = prop.getProperty("mongo.user");
+				pass = prop.getProperty("mongo.pass");
+			}
+		}
 
-	// Para conectar con el servidor local con credenciales
-	public MongoDBController(String username, String pass){
+		System.out.println(pass);
+
 		// credencial
-		MongoCredential mongoCredential = MongoCredential.createScramSha1Credential(username, "admin", pass.toCharArray());
+		MongoCredential mongoCredential = MongoCredential.createScramSha1Credential(user, "admin", pass.toCharArray());
 		// cliente
-		mongoClient = new MongoClient(new ServerAddress("localhost", 27017), Arrays.asList(mongoCredential));
+		mongoClient = new MongoClient(new ServerAddress(host, 27017), Arrays.asList(mongoCredential));
 		db = mongoClient.getDatabase("politweets");
 		tweetsCollection = db.getCollection("tweets");
-	}
 
+	}
 
 	/* METODOS */
 

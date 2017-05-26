@@ -8,8 +8,8 @@ import org.bson.conversions.Bson;
 
 public class CoreMain {
     public static void main(String[] args) {
-        MongoDBController mongo = new MongoDBController("admin","x");
-        MySQLController mysql = new MySQLController("root","x");
+        MongoDBController mongo = new MongoDBController();
+        MySQLController mysql = new MySQLController();
         Tweet[] tweets = mongo.getTextUnindexedTweets(false);
 
         System.out.println(tweets[0].toPrettyJSON());
