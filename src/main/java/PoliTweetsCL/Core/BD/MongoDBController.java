@@ -31,7 +31,7 @@ public class MongoDBController {
 			FileInputStream file;
 			File jarPath=new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
 			String propertiesPath=jarPath.getParent();
-			prop.load(new FileInputStream(propertiesPath+"/app.properties"));
+			prop.load(new FileInputStream(propertiesPath+ "/appDefault.properties"));
 		}catch (Exception e){
 			prop = null;
 			e.printStackTrace();

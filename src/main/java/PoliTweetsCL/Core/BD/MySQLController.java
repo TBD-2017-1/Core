@@ -7,7 +7,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -26,7 +25,7 @@ public class MySQLController {
             FileInputStream file;
             File jarPath=new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
             String propertiesPath=jarPath.getParent();
-            prop.load(new FileInputStream(propertiesPath+"/app.properties"));
+            prop.load(new FileInputStream(propertiesPath+ "/appDefault.properties"));
         }catch (Exception e){
             prop = null;
         }finally {
