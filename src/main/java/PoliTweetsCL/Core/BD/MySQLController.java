@@ -26,7 +26,7 @@ public class MySQLController {
             FileInputStream file;
             File jarPath=new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
             String propertiesPath=jarPath.getParent();
-            prop.load(new FileInputStream(propertiesPath+"/core.properties"));
+            prop.load(new FileInputStream(propertiesPath+"/app.properties"));
         }catch (Exception e){
             prop = null;
         }finally {
@@ -46,7 +46,30 @@ public class MySQLController {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             conn = DriverManager.getConnection("jdbc:mysql://"+host+"/PoliTweets?user="+user+"&password="+pass);
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    public MySQLController(Properties prop) {
+        String host;
+        String user;
+        String pass;
+
+        if(prop == null){
+            host = "localhost";
+            user = "root";
+            pass = "DigitalOceanServer";
+        }else {
+            host = prop.getProperty("mysql.host");
+            user = prop.getProperty("mysql.user");
+            pass = prop.getProperty("mysql.pass");
+        }
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            conn = DriverManager.getConnection("jdbc:mysql://"+host+"/PoliTweets?user="+user+"&password="+pass);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

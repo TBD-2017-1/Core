@@ -31,7 +31,7 @@ public class MongoDBController {
 			FileInputStream file;
 			File jarPath=new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
 			String propertiesPath=jarPath.getParent();
-			prop.load(new FileInputStream(propertiesPath+"/core.properties"));
+			prop.load(new FileInputStream(propertiesPath+"/app.properties"));
 		}catch (Exception e){
 			prop = null;
 			e.printStackTrace();
@@ -47,7 +47,29 @@ public class MongoDBController {
 			}
 		}
 
-		System.out.println(pass);
+		// credencial
+		MongoCredential mongoCredential = MongoCredential.createScramSha1Credential(user, "admin", pass.toCharArray());
+		// cliente
+		mongoClient = new MongoClient(new ServerAddress(host, 27017), Arrays.asList(mongoCredential));
+		db = mongoClient.getDatabase("politweets");
+		tweetsCollection = db.getCollection("tweets");
+
+	}
+
+	public MongoDBController(Properties prop){
+		String host;
+		String user;
+		String pass;
+
+		if(prop == null){
+			host = "localhost";
+			user = "admin";
+			pass = "DigitalOceanServer";
+		}else {
+			host = prop.getProperty("mongo.host");
+			user = prop.getProperty("mongo.user");
+			pass = prop.getProperty("mongo.pass");
+		}
 
 		// credencial
 		MongoCredential mongoCredential = MongoCredential.createScramSha1Credential(user, "admin", pass.toCharArray());
@@ -57,6 +79,8 @@ public class MongoDBController {
 		tweetsCollection = db.getCollection("tweets");
 
 	}
+
+
 
 	/* METODOS */
 
